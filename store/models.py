@@ -44,4 +44,7 @@ class Address(models.Model):
     zipcode = models.CharField(max_length = 100, null=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = "Adresses"
+
 
