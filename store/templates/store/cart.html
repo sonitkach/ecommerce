@@ -4,6 +4,14 @@
 
 <html>
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+	<style>
+		.icons i  {
+		margin-right: 10px; 		
+	}
+	</style>
 
 <body>
 
@@ -44,9 +52,12 @@
 					<div style="flex:1">
 						<p class="quantity">{{item.quantity}}</p>
 						<div class="quantity">
-							<img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
-					
-							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
+							<p class="icons">
+								<i  data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart material-icons"> add_circle </i> <i data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart material-icons"> remove_circle </i>
+							</p>
+							<!-- <img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">					
+							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}"> -->
+							
 						</div>
 					</div>
 					<div style="flex:1"><p>${{item.get_total|floatformat:2}}</p></div>
