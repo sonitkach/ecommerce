@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from .models import *
 
 def store(request):
@@ -29,3 +30,6 @@ def cart(request):
 
     context ={'items':items, 'order':order}
     return render(request, 'store/cart.html', context)
+
+def updateItem(request):
+    return JsonResponse('item was added', safe=False)
