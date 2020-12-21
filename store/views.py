@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
+from .forms import SignUpForm  
 import json
 import datetime
 from .models import *
@@ -84,3 +88,51 @@ def processOrder(request):
 			    
 
     return JsonResponse('payment submitted', safe=False)
+
+def signUpView(request):
+    
+    if request.method =='POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            signup_user = User.objects.get(username=username)
+            user_group = Group.objects.get(name='User')
+            user_group.user_set.add(signup_user)
+    else:
+        form = SignUpForm()
+    
+    data = cartData(request)
+    cartItems = data['cartItems'] 
+    context = {'cartItems':cartItems, 'form': form}
+
+    return render(request, 'store/signup.html', context)
+
+
+
+def loginView(request):
+        if request.method == 'POST':
+            form = AuthenticationForm(data=request.POST)
+            if form.is_valid():
+                username=request.POST['username']
+                password=request.POST['password']
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    
+                    return redirect ('store')
+                else:
+                    return redirect ('signup')
+        else:
+            form = AuthenticationForm()
+
+        data = cartData(request)
+        cartItems = data['cartItems'] 
+        context = {'cartItems':cartItems, 'form': form}
+        
+        return render (request, 'store/login.html', context)
+
+def signoutView(request):
+    logout(request)
+    return redirect('login')
+

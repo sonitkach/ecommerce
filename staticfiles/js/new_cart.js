@@ -61,6 +61,6 @@ function addCookieItem(productId, action){
 	console.log('cart:', cart)
 	document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 
-	
+    location.reload()
 }
 

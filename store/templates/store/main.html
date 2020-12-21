@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
@@ -66,6 +66,12 @@
 		console.log('cart:', cart)
   </script>
   
+  <style>
+  .auth-btn   {
+    margin-right: 10px; 		
+	}
+	</style>
+
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="{% url 'store' %}">Ecom</a>
@@ -81,12 +87,25 @@
 
     </ul>
     <div class="form-inline my-2 my-lg-0">
-     	<a href="#"class="btn btn-success">Login</a>
+
+      {% if request.user.is_authenticated and request.user.name %}
+       <p> welcome, {{request.user.name}} <i class="material-icons cart-icon">account_circle</i></p>
+       <a href="{% url 'signout' %}"class="btn btn-success auth-btn">Sign Out</a>
+       
+      {% else %}
+       <a href="{% url 'login' %}"class="btn btn-success auth-btn">Login</a>
         <br>
+      <a href="{% url 'signup' %}"class="btn btn-success auth-btn">Sign Up</a>
+        <br>
+
+      {% endif %}
      	<a href="{% url 'cart' %}">
     		<i class="material-icons md-16 cart-icon">shopping_cart </i>
-    	</a>
-    	<p id="cart-total">{{cartItems}}</p>
+      </a>
+      
+      {% if cartItems > 0 %}
+      <p id="cart-total">{{cartItems}}</p>
+      {% endif %}
 
     </div>
   </div>
